@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-const PlaceDetailsScreen = () => {
+const PlaceDetailsScreen = (props) => {
+  const { placeTitle } = props.route.params;
+  useLayoutEffect(() => {
+    props.navigation.setOptions({
+      title: placeTitle,
+    });
+  });
+
   return (
     <View>
       <Text>PlaceDetailsScreen</Text>

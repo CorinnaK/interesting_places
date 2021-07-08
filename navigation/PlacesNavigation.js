@@ -23,9 +23,17 @@ const PlacesNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={navOptions}>
-        <Stack.Screen name="Places" component={PlacesListScreen} />
+        <Stack.Screen
+          name="Places"
+          component={PlacesListScreen}
+          options={{ title: "All Places" }}
+        />
         <Stack.Screen name="PlaceDetail" component={PlacesDetailsScreen} />
-        <Stack.Screen name="NewPlace" component={NewPlacesScreen} />
+        <Stack.Screen
+          name="NewPlace"
+          component={NewPlacesScreen}
+          options={{ title: "Add Place" }}
+        />
         <Stack.Screen name="Map" component={MapScreen} />
       </Stack.Navigator>
     </NavigationContainer>
