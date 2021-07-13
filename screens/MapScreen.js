@@ -16,31 +16,44 @@ import {
 import Colors from "../constants/Colors";
 
 const MapScreen = (props) => {
-  const [selectedLocation, setSelectedLocation] = useState();
+  let initialLocation;
+  let readonly;
+
+  if (props.route.params) {
+    initialLocation = props.route.params.initialLocation;
+    readonly = props.route.params.readonly;
+  }
+
+  const [selectedLocation, setSelectedLocation] = useState(initialLocation);
 
   const { navigation } = props;
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity
-          style={styles.headerButton}
-          onPress={saveSelectedLocationHandler}
-        >
-          <Text style={styles.headerText}>SAVE</Text>
-        </TouchableOpacity>
-      ),
-    });
-  }, [selectedLocation]);
+  if (!readonly) {
+    useLayoutEffect(() => {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity
+            style={styles.headerButton}
+            onPress={saveSelectedLocationHandler}
+          >
+            <Text style={styles.headerText}>SAVE</Text>
+          </TouchableOpacity>
+        ),
+      });
+    }, [selectedLocation]);
+  }
 
   const mapRegion = {
-    latitude: 37.78,
-    longitude: -122.43,
+    latitude: initialLocation ? initialLocation.lat : 37.78,
+    longitude: initialLocation ? initialLocation.lng : -122.43,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   };
 
   const selectLocationHandler = (event) => {
+    if (readonly) {
+      return;
+    }
     setSelectedLocation({
       lat: event.nativeEvent.coordinate.latitude,
       lng: event.nativeEvent.coordinate.longitude,
